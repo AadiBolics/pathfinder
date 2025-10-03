@@ -1,0 +1,146 @@
+/* --- CSS Variables for Easy Customization --- */
+:root {
+  --primary-blue: #007bff;
+  --primary-blue-hover: #0069d9;
+  --danger-red: #dc3545;
+  --danger-red-hover: #c82333;
+  --light-gray: #f8f9fa;
+  --medium-gray: #e9ecef;
+  --dark-gray-text: #495057;
+  --border-color: #dee2e6;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* --- Main Sidebar Container --- */
+.sidebar {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 350px; /* Made it slightly wider for the new inputs */
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  z-index: 10;
+  max-height: calc(100vh - 30px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+}
+
+/* --- Location List Styling --- */
+.location-list h3 {
+  font-size: 1rem;
+  color: var(--dark-gray-text);
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.location-list .warehouse-item {
+  background-color: var(--light-gray);
+  padding: 10px;
+  border-radius: 6px;
+  color: var(--dark-gray-text);
+  font-weight: 500;
+}
+
+.location-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.location-list li {
+  padding: 12px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.location-list li:hover {
+  background-color: var(--light-gray);
+}
+
+.stop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px; /* Add space below the stop name */
+}
+
+.stop-header span {
+  color: var(--dark-gray-text);
+  font-weight: 500;
+}
+
+/* --- NEW: Time Window Input Styling --- */
+.time-window-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between the inputs and text */
+  font-size: 14px;
+}
+
+.time-window-inputs input[type="time"] {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 14px;
+}
+
+/* --- Button Styling --- */
+.delete-btn {
+  background-color: #fee2e2;
+  color: var(--danger-red);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0; /* Prevent the button from shrinking */
+}
+
+.delete-btn:hover {
+  background-color: var(--danger-red);
+  color: white;
+  transform: scale(1.1);
+}
+
+.calculate-btn {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.calculate-btn:hover {
+  background-color: var(--primary-blue-hover);
+}
+
+.calculate-btn:disabled {
+  background-color: var(--medium-gray);
+  color: #999;
+  cursor: not-allowed;
+}

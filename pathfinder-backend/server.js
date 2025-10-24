@@ -220,11 +220,16 @@ app.post('/api/optimize-route', async (req, res) => {
     const data = await response.json();
 
     if (data.routes && data.routes.length > 0) {
-      const routeGeometry = data.routes[0].geometry;
+      const routeData = data.routes[0]; // Get the whole route object
+      const routeGeometry = routeData.geometry;
+      const routeDistance = routeData.distance; // in meters
+      const routeDuration = routeData.duration;
       res.json({
         message: 'Route optimized and fetched successfully!',
         optimizedPath: finalOptimizedPath,
         routeGeometry: routeGeometry,
+        totalDistance: routeDistance,  // <-- ADD THIS
+        totalDuration: routeDuration,  // <-- ADD THIS
       });
     } else {
       // If Mapbox fails, still send back the path so the user can see the order

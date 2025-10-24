@@ -144,3 +144,34 @@
   color: #999;
   cursor: not-allowed;
 }
+.route-summary {
+  background-color: var(--light-gray);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+}
+
+.route-summary h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--dark-gray-text);
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  padding: 5px 0;
+}
+
+.summary-item span {
+  color: #555;
+}
+
+.summary-item strong {
+  color: var(--primary-blue);
+  font-size: 1.1rem;
+}

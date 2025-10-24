@@ -20,6 +20,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [optimizedPath, setOptimizedPath] = useState([]);
   const [routeGeometry, setRouteGeometry] = useState(null);
+  const [routeSummary, setRouteSummary] = useState(null);
 
   const handleMapClick = (event) => {
     if (isLoading) return;
@@ -50,6 +51,7 @@ function App() {
     setIsLoading(true);
     setRouteGeometry(null);
     setOptimizedPath([]);
+    setRouteSummary(null);
     
     try {
       // The stops array now automatically includes the time data
@@ -59,6 +61,10 @@ function App() {
       });
       setOptimizedPath(response.data.optimizedPath);
       setRouteGeometry(response.data.routeGeometry);
+      setRouteSummary({ // <-- ADD THIS BLOCK
+        distance: response.data.totalDistance,
+        duration: response.data.totalDuration,
+      });
     } catch (error) {
       console.error("Error calculating route:", error.response ? error.response.data : error.message);
       alert(`Failed to calculate route: ${error.response ? error.response.data.error : error.message}`);
@@ -77,7 +83,8 @@ function App() {
         onDeleteStop={handleDeleteStop}
         onCalculateRoute={handleCalculateRoute}
         isLoading={isLoading}
-        onTimeChange={handleTimeChange} // <-- Pass the new handler down
+        onTimeChange={handleTimeChange}
+        routeSummary={routeSummary}
       />
       <div className="map-container">
         <Map

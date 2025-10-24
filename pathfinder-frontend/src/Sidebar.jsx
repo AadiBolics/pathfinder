@@ -2,15 +2,45 @@ import React from 'react';
 import './Sidebar.css';
 
 // We now accept an onTimeChange prop
-function Sidebar({ warehouse, stops, onDeleteStop, onCalculateRoute, isLoading, onTimeChange }) {
+function Sidebar({ warehouse, stops, onDeleteStop, onCalculateRoute, isLoading, onTimeChange, routeSummary }) {
   const formatCoords = (point) => {
     if (!point) return "Not set";
     return `${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}`;
   };
 
+  const formatSummary = (summary) => {
+    if (!summary) return { distance: '0 Km', duration: '0 mins' };
+
+    // Your .toFixed(2) is a great choice!
+    const distanceKm = (summary.distance / 1000).toFixed(2);
+    const durationMins = Math.round(summary.duration / 60);
+
+    return {
+      distance: `${distanceKm} Km`,
+      duration: `${durationMins} mins`
+    };
+  };
+
+  const summary = formatSummary(routeSummary);
+
   return (
     <div className="sidebar">
       <h2>Pathfinder Control</h2>
+
+      {routeSummary && (
+        <div className="route-summary">
+          <h3> Route Summary</h3>
+          <div className="summary-item">
+            <span>Total Distance:</span>
+            <strong>{summary.distance}</strong>
+          </div>
+          <div className="summary-item">
+            {/* TYPO FIX: Changed "Est: duration:" to "Est. Duration:" */}
+            <span>Est. Duration:</span>
+            <strong>{summary.duration}</strong>
+          </div>
+        </div>
+      )}
       
       <div className="location-list">
         <h3>Warehouse</h3>

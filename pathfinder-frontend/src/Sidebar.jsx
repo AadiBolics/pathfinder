@@ -1,15 +1,24 @@
-import React from 'react';
-import './Sidebar.css';
+import React from "react";
+import "./Sidebar.css";
 
 // We now accept an onTimeChange prop
-function Sidebar({ warehouse, stops, onDeleteStop, onCalculateRoute, isLoading, onTimeChange, routeSummary }) {
-  const formatCoords = (point) => {
-    if (!point) return "Not set";
-    return `${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}`;
+function Sidebar({
+  warehouse,
+  stops,
+  onDeleteStop,
+  onCalculateRoute,
+  isLoading,
+  onTimeChange,
+  routeSummary,
+  clickedAddress,
+}) {
+  const formatAddress = (point) => {
+    if (!point || !point.address) return "Not set";
+    return point.address;
   };
 
   const formatSummary = (summary) => {
-    if (!summary) return { distance: '0 Km', duration: '0 mins' };
+    if (!summary) return { distance: "0 Km", duration: "0 mins" };
 
     // Your .toFixed(2) is a great choice!
     const distanceKm = (summary.distance / 1000).toFixed(2);
@@ -17,7 +26,7 @@ function Sidebar({ warehouse, stops, onDeleteStop, onCalculateRoute, isLoading, 
 
     return {
       distance: `${distanceKm} Km`,
-      duration: `${durationMins} mins`
+      duration: `${durationMins} mins`,
     };
   };
 
@@ -41,18 +50,21 @@ function Sidebar({ warehouse, stops, onDeleteStop, onCalculateRoute, isLoading, 
           </div>
         </div>
       )}
-      
+
       <div className="location-list">
         <h3>Warehouse</h3>
-        <p className="warehouse-item">{formatCoords(warehouse)}</p>
-        
+        <p className="warehouse-item">{formatAddress(warehouse)}</p>
         <h3>Delivery Stops ({stops.length})</h3>
         <ul>
           {stops.map((stop, index) => (
             <li key={`stop-item-${index}`}>
               <div className="stop-header">
-                <span>Stop {index + 1}: {formatCoords(stop)}</span>
-                <button onClick={() => onDeleteStop(index)} className="delete-btn">
+                <span>Stop {index + 1}: {formatAddress(stop)}</span>
+
+                <button
+                  onClick={() => onDeleteStop(index)}
+                  className="delete-btn"
+                >
                   X
                 </button>
               </div>
@@ -61,14 +73,18 @@ function Sidebar({ warehouse, stops, onDeleteStop, onCalculateRoute, isLoading, 
                 <span>Deliver between:</span>
                 <input
                   type="time"
-                  value={stop.startTime || ''}
-                  onChange={(e) => onTimeChange(index, 'startTime', e.target.value)}
+                  value={stop.startTime || ""}
+                  onChange={(e) =>
+                    onTimeChange(index, "startTime", e.target.value)
+                  }
                 />
                 <span>and</span>
                 <input
                   type="time"
-                  value={stop.endTime || ''}
-                  onChange={(e) => onTimeChange(index, 'endTime', e.target.value)}
+                  value={stop.endTime || ""}
+                  onChange={(e) =>
+                    onTimeChange(index, "endTime", e.target.value)
+                  }
                 />
               </div>
             </li>
@@ -81,7 +97,7 @@ function Sidebar({ warehouse, stops, onDeleteStop, onCalculateRoute, isLoading, 
         onClick={onCalculateRoute}
         disabled={!warehouse || stops.length === 0 || isLoading}
       >
-        {isLoading ? 'Calculating...' : 'Calculate Route'}
+        {isLoading ? "Calculating..." : "Calculate Route"}
       </button>
     </div>
   );

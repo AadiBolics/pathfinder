@@ -10,12 +10,13 @@
   --border-color: #dee2e6;
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
-
+.search-box-container {
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 15px;
+}
 /* --- Main Sidebar Container --- */
 .sidebar {
-  position: absolute;
-  top: 15px;
-  left: 15px;
   width: 350px; /* Made it slightly wider for the new inputs */
   background-color: white;
   padding: 20px;

@@ -12,6 +12,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.16.2",
+    "@mapbox/search-js-react": "^1.5.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0"

@@ -1,15 +1,43 @@
-body {
-  margin: 0;
-  font-family: sans-serif;
-}
-
 .app-container {
   position: relative;
   width: 100vw;
   height: 100vh;
 }
 
+.sidebar-float-container {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 370px; /* Slightly wider to fit both */
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* keep search box stuck to sidebar */
+  pointer-events: none; /* this makes the whole column ignore mouse events... */
+}
+
+.sidebar-float-container > * {
+  pointer-events: auto; /* ...but each child will respond normally */
+}
+
+.search-box-container {
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 4px 16px rgba(0, 50, 150, 0.10);
+  margin-bottom: 0;
+}
+
+.sidebar {
+  margin-top: 0;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 6px 20px rgba(0, 50, 150, 0.13);
+}
 .map-container {
-  width: 100%;
-  height: 100%;
+  position: absolute;   /* ⭐ Important: ensures map is backgrounded */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
 }

@@ -1,0 +1,31 @@
+/* Ocean blue & white theme for search box */
+.search-box-container {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(90deg, #006994 60%, #0099cc 100%);
+  border-radius: 15px 15px 0px 0px;
+  box-shadow: 0 4px 16px rgba(0, 50, 150, 0.10);
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mapbox-searchbox-input {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background: #fff;
+  color: #006994;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 105, 148, 0.07);
+  transition: background 0.2s;
+}
+
+.mapbox-searchbox-input::placeholder {
+  color: #0099cc;
+  font-weight: 400;
+  opacity: 0.9;
+}

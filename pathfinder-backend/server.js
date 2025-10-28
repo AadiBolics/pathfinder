@@ -1,4 +1,3 @@
-// Load environment variables from .env file
 require('dotenv').config();
 
 const express = require('express');
@@ -10,14 +9,10 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// A simple constant for average travel speed in km/h, used for time estimations
 const AVERAGE_SPEED_KMH = 40;
 
-// --- CORE HELPER FUNCTIONS ---
-
-/**
- * Calculates the distance between two lat/lng points in kilometers using the Haversine formula.
- */
+ // Calculates the distance between two lat/lng points in kilometers using the Haversine formula.
+ 
 function calculateDistance(point1, point2) {
   const R = 6371; // Radius of the Earth in km
   const dLat = (point2.lat - point1.lat) * (Math.PI / 180);
@@ -33,7 +28,7 @@ function calculateDistance(point1, point2) {
 }
 
 /**
- * Calculates the total distance of a given path.
+  Calculates the total distance of a given path.
  */
 function calculatePathDistance(path) {
     let totalDistance = 0;
@@ -44,12 +39,12 @@ function calculatePathDistance(path) {
 }
 
 
-/**
- * Checks if a given path is valid according to all time window constraints.
- * Returns true if valid, false otherwise.
- */
+
+ //Checks if a given path is valid according to all time window constraints.
+ // Returns true if valid, false otherwise.
+ 
 function isPathTimeValid(path, startTime = '09:00') {
-  let currentTime = new Date(`1970-01-01T${startTime}:00Z`); // Use Z for UTC to be safe
+  let currentTime = new Date(`1970-01-01T${startTime}:00Z`);
   for (let i = 0; i < path.length - 1; i++) {
     const currentStop = path[i];
     const nextStop = path[i + 1];
@@ -75,12 +70,7 @@ function isPathTimeValid(path, startTime = '09:00') {
 }
 
 
-// --- PHASE 1: GENERATE A VALID ROUTE ---
-
-/**
- * Solves the TSP using a time-aware Nearest Neighbor greedy algorithm.
- * Its goal is to find a *valid* initial solution.
- */
+//PHASE 1: GENERATE A VALID ROUTE 
 function solveTspWithTimeWindows(warehouse, stops, startTime = '09:00') {
   if (!warehouse) return [];
   
@@ -149,19 +139,15 @@ function solveTspWithTimeWindows(warehouse, stops, startTime = '09:00') {
     visited[currentStopIndex] = true;
   }
   
-  path.push(warehouse); // Complete the round trip
+  path.push(warehouse);
   return path;
 }
 
 
-// --- PHASE 2: REFINE THE VALID ROUTE ---
+// PHASE 2: REFINE THE VALID ROUTE
 
-/**
- * Improves a given path using a time-aware 2-Opt algorithm.
- * Its goal is to make a *valid* path *shorter*, without breaking time rules.
- */
 function improveWithTimeAware2Opt(path) {
-    if (path.length <= 3) return path; // Cannot optimize a path with 1 stop or less
+    if (path.length <= 3) return path; 
 
     let bestPath = [...path];
     let improvementMade = true;
@@ -175,7 +161,6 @@ function improveWithTimeAware2Opt(path) {
                 const newPath = [...bestPath.slice(0, i), ...bestPath.slice(i, k + 1).reverse(), ...bestPath.slice(k + 1)];
                 const newDistance = calculatePathDistance(newPath);
 
-                // CRITICAL: Check both distance AND time validity
                 if (newDistance < bestDistance && isPathTimeValid(newPath)) {
                     bestPath = newPath;
                     bestDistance = newDistance;
@@ -188,7 +173,7 @@ function improveWithTimeAware2Opt(path) {
 }
 
 
-// --- MAIN API ENDPOINT ---
+// API ENDPOINT
 
 app.get('/', (req, res) => res.send('Pathfinder Backend is running!'));
 
@@ -209,10 +194,10 @@ app.post('/api/optimize-route', async (req, res) => {
         return res.status(400).json({ error: 'Could not find a valid route that meets all time window constraints. The constraints might be impossible.' });
     }
 
-    // 2. Refine that valid route to make it shorter, without breaking time rules.
+    // Refining that valid route to make it shorter, without breaking time rules.
     const finalOptimizedPath = improveWithTimeAware2Opt(initialValidPath);
 
-    // 3. Fetch the actual route geometry from Mapbox for the final, refined path.
+    // Fetching the actual route geometry from Mapbox for the final, refined path.
     const coordinatesString = finalOptimizedPath.map(p => `${p.lng},${p.lat}`).join(';');
     const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinatesString}?geometries=geojson&access_token=${MAPBOX_TOKEN}`;
     
@@ -228,11 +213,10 @@ app.post('/api/optimize-route', async (req, res) => {
         message: 'Route optimized and fetched successfully!',
         optimizedPath: finalOptimizedPath,
         routeGeometry: routeGeometry,
-        totalDistance: routeDistance,  // <-- ADD THIS
-        totalDuration: routeDuration,  // <-- ADD THIS
+        totalDistance: routeDistance,  
+        totalDuration: routeDuration, 
       });
     } else {
-      // If Mapbox fails, still send back the path so the user can see the order
       res.status(500).json({ 
         message: 'Path optimized, but failed to fetch route geometry from Mapbox.',
         optimizedPath: finalOptimizedPath,
@@ -246,7 +230,6 @@ app.post('/api/optimize-route', async (req, res) => {
 });
 
 
-// --- Start the Server ---
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT} in India.`);
 });
